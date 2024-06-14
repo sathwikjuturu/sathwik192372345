@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <string.h>
+
+#define HAYSTACK_SIZE 100
+#define NEEDLE_SIZE 10
+
+int main() {
+    char haystack[HAYSTACK_SIZE] = "hello world, this is a test string";
+    char needle[NEEDLE_SIZE] = "world";
+
+    int haystack_len = strlen(haystack);
+    int needle_len = strlen(needle);
+
+    int i, j;
+    for (i = 0; i <= haystack_len - needle_len; i++) {
+        int match = 1;
+        for (j = 0; j < needle_len; j++) {
+            if (haystack[i + j] != needle[j]) {
+                match = 0;
+                break;
+            }
+        }
+        if (match) {
+            printf("Found needle at position %d\n", i);
+            return 0;
+        }
+    }
+
+    printf("Needle not found in haystack\n");
+    return 1;
+}
