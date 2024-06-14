@@ -1,0 +1,87 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct Node {
+    int data;
+    struct Node* next;
+} Node;
+
+Node* create_node(int data) {
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+}
+
+void insert_node(Node** head, int data) {
+    Node* new_node = create_node(data);
+    if (*head == NULL) {
+        *head = new_node;
+        return;
+    }
+    Node* current = *head;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = new_node;
+}
+
+Node* find_intersection(Node* head1, Node* head2) {
+    Node* current1 = head1;
+    Node* current2 = head2;
+    Node* intersection = NULL;
+
+    while (current1 != NULL && current2 != NULL) {
+        if (current1 == current2) {
+            intersection = current1;
+            break;
+        }
+        if (current1->data < current2->data) {
+            current1 = current1->next;
+        } else {
+            current2 = current2->next;
+        }
+    }
+
+    return intersection;
+}
+
+void print_list(Node* head) {
+    Node* current = head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+int main() {
+    Node* head1 = NULL;
+    Node* head2 = NULL;
+
+    insert_node(&head1, 1);
+    insert_node(&head1, 2);
+    insert_node(&head1, 3);
+    insert_node(&head1, 4);
+
+    insert_node(&head2, 5);
+    insert_node(&head2, 6);
+    insert_node(&head2, 7);
+    insert_node(&head2, 8);
+
+    printf("List 1: ");
+    print_list(head1);
+
+    printf("List 2: ");
+    print_list(head2);
+
+    Node* intersection = find_intersection(head1, head2);
+
+    if (intersection == NULL) {
+        printf("No intersection\n");
+    } else {
+        printf("Intersection: %d\n", intersection->data);
+    }
+
+    return 0;
+}
